@@ -19,22 +19,20 @@ timer = 4
 game_result = ""
 
 win_map = {
-    "rock": "scissors",
-    "scissors": "paper",
-    "paper": "rock"
+    "rock": "scissors", # камень
+    "scissors": "paper", # ножницы
+    "paper": "rock" # бумага,
 }
 
 while cap.isOpened():
     ret, frame = cap.read()
-    cv2.putText(frame, f"{state} - {5 - timer:.1f}", (20, 20),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    cv2.putText(frame, f"{state} - {5 - timer:.1f}", (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     cv2.imshow(window_name, frame)
     results = model(frame)
     result = results[0]
     if not result:
         continue
-
-    if len(result.boxes.xyxy) == 2:
+    if len(result.boxes.xyxy) == 2: # если нашли две руки
         labels = []
         for label, xyxy in zip(result.boxes.cls, result.boxes.xyxy):
             x1, y1, x2, y2 = xyxy.numpy().astype("int")
@@ -48,7 +46,6 @@ while cap.isOpened():
         if player1_hand == "rock" and player2_hand == "rock" and state == "idle":
             state = "wait"
             prev_time = time.time()
-
 
     if state == 'wait':
         timer = round(time.time() - prev_time, 1)

@@ -60,7 +60,7 @@ time_not_pushing_up = time.time()  # Когда последний раз рук
 while cap.isOpened():
     ret, frame = cap.read()
     cur_time = time.time()
-    writer.write(frame)  # Записывает кадр на диск.
+    writer.write(frame)  # Записывает кадр на диск
     last_time = cur_time
     cv2.imshow('YOLO', frame)
     results = model(frame)  # Прогоняет кадр через модель (находит ключевые точки позы).
@@ -91,9 +91,9 @@ while cap.isOpened():
         time_not_pushing_up = time.time()
 
     if angle_ is not None and body_angle is not None:
-        # Проверяем, что тело находится в горизонтальном положении (body_angle мал, например, меньше 50 пикселей)
+        # Проверяем, что тело находится в горизонтальном положении
         if body_angle < 50:
-            if flag and angle_ > 150:  # Руки разогнуты (завершение отжимания)
+            if flag and angle_ > 150:  # Руки прямые (завершение отжимания)
                 time_not_pushing_up = time.time()
                 count += 1
                 flag = False
